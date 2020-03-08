@@ -9186,9 +9186,10 @@ small {
   font-size: var(--font-xs); }
 
 pre, code {
-  font-family: var(--font-family-monospace), "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: var(--font-s);
-  color: var(--code); }
+  font-family: var(--font-family-monospace), "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+
+pre {
+  font-size: var(--font-s); }
 
 b {
   font-weight: var(--font-bold); }
@@ -9224,6 +9225,9 @@ b {
 [type="content"] blockquote, .content blockquote {
   margin-left: var(--spacing-l);
   margin-right: var(--spacing-l); }
+
+[type="content"] pre, [type="content"] code, .content pre, .content code {
+  color: var(--code); }
 
 [type="content"] pre, .content pre {
   background: var(--lightest-gray);
