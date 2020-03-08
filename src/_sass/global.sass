@@ -1,0 +1,27 @@
+// set variables used in multiple files
+@import "global/variables/responsive.sass"
+
+
+// mixins
+@import "global/mixins/mixins.sass"
+
+
+// core
+@import "global/core/resets.sass"
+@import "global/core/layout.sass"
+
+// generated using mixins
+
+@import "global/generated/utility.sass"
+@import "global/generated/sizing.sass"
+@import "global/generated/responsive.sass"
+
+// common
+@import "global/common/fonts.sass"
+@import "global/common/typography.sass"
+@import "global/common/form.sass"
+@import "global/common/buttons.sass" // always load after form
+@import "global/common/labels.sass"
+
+// finally
+@import "global/css_variables.sass"
