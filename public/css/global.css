@@ -9190,6 +9190,9 @@ pre, code {
   font-size: var(--font-s);
   color: var(--code); }
 
+b {
+  font-weight: var(--font-bold); }
+
 [type="content"] h1, .content h1 {
   margin-top: var(--text-spacing-xxl);
   margin-bottom: var(--text-spacing-xxl); }
