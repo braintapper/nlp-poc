@@ -40,7 +40,8 @@
       "US dollars": "Currency"
       "percentage": "Fraction"
 
-
+    world.postProcess (doc)->
+      doc.match("line1").tag("#Fraction")
 
   expressions = [
     "10 percent off 100"
