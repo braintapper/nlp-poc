@@ -15,15 +15,7 @@
 
 
 
-  import Styles from './pages/Styles/Group.svelte'
-  import Form from './pages/Form/Group.svelte'
-  import Overlay from './pages/Overlay/Group.svelte'
-  import Icons from './pages/Icons/Group.svelte'
-  import Css from './pages/Css/Group.svelte'
-  import Layout from './pages/Layout/Group.svelte'
-  import Navigation from './pages/Navigation/Group.svelte'
-  import External from './pages/External/Group.svelte'
-  import Controls from './pages/Controls/Group.svelte'
+  import Main from './pages/Main/Group.svelte'
 
 
 
@@ -31,66 +23,11 @@
     {
       ordinal: 0
       url: "/"
-      text: "Styles"
+      text: "main"
       context: "styles"
-      component: Styles
+      component: Main
     }
-    {
-      ordinal: 1
-      url: "/css"
-      text: "CSS"
-      context: "css"
-      component: Css
-    }
-    {
-      ordinal: 2
-      url: "/form"
-      text: "Form"
-      context: "form"
-      component: Form
-    }
-    {
-      ordinal: 3
-      url: "/overlay"
-      text: "Overlay"
-      context: "overlay"
-      component: Overlay
-    }
-    {
-      ordinal: 4
-      url: "/icons"
-      text: "Icons"
-      context: "icons"
-      component: Icons
-    }
-    {
-      ordinal: 5
-      url: "/layout"
-      text: "Layout"
-      context: "layout"
-      component: Layout
-    }
-    {
-      ordinal: 6
-      url: "/navigation"
-      text: "Navigation"
-      context: "navigation"
-      component: Navigation
-    }
-    {
-      ordinal: 6
-      url: "/controls"
-      text: "Controls"
-      context: "controls"
-      component: Controls
-    }
-    {
-      ordinal: 7
-      url: "/external"
-      text: "External"
-      context: "external"
-      component: External
-    }
+
   ]
 
 
@@ -102,7 +39,7 @@
 
 
 
-  appName = "Svelte-Components"
+  appName = "NLP POC"
 
 
 
