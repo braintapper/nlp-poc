@@ -32,8 +32,13 @@
       "x": "Operator"
       "plus": "Operator"
       "minus": "Operator"
+      "divide by": "Operator"
+      "divided by": "Operator"
       "times": ["Operator","Plural"]
+      "multiply by": "Operator"
+      "multiplied by": "Operator"
       "US dollars": "Currency"
+      "percentage": "Fraction"
 
 
 
