@@ -4,7 +4,7 @@
 
   import Select from "../../components/Form/Select/Select.svelte"
 
-  import Solver from "./Solver.svelte"
+  import Repl from "./Repl.svelte"
   import nlp from "compromise"
   import compromiseNumbers from "compromise-numbers"
   import compromiseDates from "compromise-dates"
@@ -15,20 +15,24 @@
   nlp.extend (Doc, world)->
     world.addTags
       Operator:
-        isNotA: "Noun"
-        isNotA: "Adjective"
-        isNotA: "Conjunction"
+        notA: "Noun"
+        notA: "Adjective"
+        notA: "Conjunction"
+        notA: "Singular"
     world.addTags
       Separator:
-        isNotA: "Noun"
-        isNotA: "Adjective"
-        isNotA: "Conjunction"
+        notA: "Noun"
+        notA: "Adjective"
+        notA: "Conjunction"
+
+
 
     world.addWords
+      "(": "Bracket"
       "+": "Operator"
       "*": "Operator"
-      "-": ["Operator","Separator"]
-      "/": ["Operator","Separator"]
+      "#-#": ["Operator"]
+      "./.": ["Operator"]
       "x": "Operator"
       "plus": "Operator"
       "minus": "Operator"
@@ -41,9 +45,17 @@
       "percentage": "Fraction"
 
     world.postProcess (doc)->
-      doc.match("line1").tag("#Fraction")
+      doc.match("/\//").tag("#Operator")
+      doc.match("/\-/").tag("#Operator")
+
 
   expressions = [
+    "4 / 2 * 5 - 1 -1"
+    ":49 45:"
+    "2 * 5 + 2 - 1 / 2  :49  45: 12:00"
+    ":49"
+    "6 - 4 + 1"
+    "5 / 10"
     "10 percent off 100"
     "5 times 1"
     "35% off 400k"
@@ -52,7 +64,7 @@
     "$30CAD in US Dollars"
     "$30CAD + $20USD"
     "line1 + 5%"
-    "5 / 10"
+
     "line1 as a percentage of #line2"
     "line1 as a % of #line2"
     "5 days from now"
@@ -64,16 +76,81 @@
 
   ]
   nodes = (val)=>
-    converted =  nlp(val).join().json(
+
+    transformedVal = val.replace(/ \/ /g , " ./. ").replace(/ - /g," #-# ")
+    # transformedVal = val
+    options =
+      terms:
+        clean: true
+        bestTag: true
+
+
+    converted =  nlp(transformedVal).join().json(options)[0].terms
+    ###
+    .json(
         terms:
-          clean: true,
-          bestTag: true
-      )[0].terms
+          #clean: true,
+        #  #bestTag: true
+      )[0]
+    ###
 
     return converted
 
 
+  nodeTags = (val)=>
 
+    transformedVal = val.replace(/ \/ /g , " ./. ").replace(/ - /g," #-# ")
+    # transformedVal = val
+    options =
+      terms:
+        clean: true
+        bestTag: true
+
+
+    converted =  nlp(transformedVal).join().json(options)[0].terms
+
+
+
+    # return converted
+
+    output = []
+    converted.forEach (item)->
+      output.append item.tags
+
+    return output.unique()
+
+  analyzeType = (expression)->
+    # overrides
+    guesses = []
+    tags = nodeTags(expression)
+    suffix = ""
+    checks = ["Date","Unit","HashTag","Time","Operator","Currency","Time"]
+
+
+    if expression.includes(":")
+      guesses.append "Time"
+
+    checks.forEach (item)->
+      if tags.includes(item)
+        guesses.append item
+
+
+    if guesses.includes("HashTag")
+      suffix = ", ##"
+    if guesses.includes("Time")
+      return "Time"
+    else if guesses.includes("Date")
+      return  "Date"
+    else if guesses.includes("Unit")
+      return "Conversion"
+    else if guesses.includes("Currency")
+      return "Forex"
+    else
+      return "Math"
+
+
+  sanitizeMath = (val)->
+    val.replace("times","*")
 
 </script>
 <style lang="sass">
@@ -92,25 +169,33 @@
       text-decoration: underline
 </style>
 <Group title="Main">
-  <div>
-  {#each expressions as expression}
-    <nodes va="top">
-      {#each nodes(expression) as item}
-          <node>
-            <div><h1><code>{item.text}</code></h1></div>
-            <div>{@html item.tags.join("<br/>")}</div>
-          </node>
+
+    <div>
+      {#each expressions as expression}
+
+          <h1>{expression} <label type="tag" margin-left-s>{analyzeType(expression)}</label></h1>
+
+          <p>Detected: {nodeTags(expression).join(",")}</p>
+          <nodes>
+            {#each nodes(expression) as item}
+              <node>
+                  <div><h1><code>{item.text}</code></h1></div>
+                  <div>{@html item.tags.join("<br/>")}</div>
+                </node>
+            {/each}
+          </nodes>
+
+          <!--  <pre>{JSON.stringify(nodes(expression), null, 2)}</pre>-->
+
+          <hr/>
       {/each}
-    </nodes>
-    <!--<pre>{JSON.stringify(nodes(expression), null, 2)}</pre>-->
-  {/each}
-  </div>
+    </div>
 
   <!--
 
   <div>
 
-      <Solver/>
+      <Repl/>
 
 
 
